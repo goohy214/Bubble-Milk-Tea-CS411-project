@@ -1,3 +1,5 @@
+## Reference [Django Rest Framework with React] (https://medium.com/swlh/django-rest-framework-with-react-jwt-authentication-part-1-a24b24fa83cd)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
