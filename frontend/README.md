@@ -1,6 +1,6 @@
 ## Reference 
-[Django Rest Framework with React 1] (https://medium.com/swlh/django-rest-framework-with-react-jwt-authentication-part-1-a24b24fa83cd)
-[Django Reat Framwork with React 2] (https://medium.com/techspace-usict/django-rest-framework-with-react-jwt-authentication-part-2-8e272e866150)
+[Django Rest Framework with React 1](https://medium.com/swlh/django-rest-framework-with-react-jwt-authentication-part-1-a24b24fa83cd)
+[Django Reat Framwork with React 2](https://medium.com/techspace-usict/django-rest-framework-with-react-jwt-authentication-part-2-8e272e866150)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
