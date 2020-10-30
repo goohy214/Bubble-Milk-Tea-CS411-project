@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class GetFullUserSerializer(sz.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username','is_superuser','first_name', 'last_name')
+        fields = ('username','is_superuser','email')
 
 class UserSerializerWithToken(sz.ModelSerializer):
     password = sz.CharField(write_only=True)
@@ -24,12 +24,11 @@ class UserSerializerWithToken(sz.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create(
             username = validated_data['username'],
-            first_name = validated_data['first_name'],
-            last_name = validated_data['last_name'] 
+            email = validated_data['email']
         )
         user.set_password(validated_data['password'])
         user.save()
         return user
     class Meta:
         model = User
-        fields = ('token', 'username', 'password', 'first_name', 'last_name')
+        fields = ('token', 'username', 'password', 'email')
