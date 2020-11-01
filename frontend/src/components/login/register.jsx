@@ -101,7 +101,7 @@ clearForm = () => {
               
             </div>
           </div>
-          <div className="footer">
+          <div>
             <button type="submit" className="btn" onClick={this.sendRegistration}>
               Register
             </button>

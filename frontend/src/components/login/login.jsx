@@ -44,7 +44,7 @@ export class Login extends React.Component {
             </div>
           </div>
         </div>
-        <div className="footer">
+        <div>
           <button type="submit" className="btn" onClick={e => this.props.handleLogin(e, {
             username : this.props.username, 
             password : this.state.password
