@@ -1,7 +1,7 @@
 import React from "react";
 import "./Login.scss";
 import { Login, Register } from "./components/login/index";
-import {Navbar, Nav, Form, FormControl, Button} from "react-bootstrap";
+import Navbar from "./components/navbar";
 
 const base_url = 'http://127.0.0.1:8000/'
 class App extends React.Component {
@@ -98,53 +98,40 @@ class App extends React.Component {
     const currentActive = isLogginActive ? "login" : "register";
     return (
       <div>
-        <div>
-          <Navbar bg="light" variant="light">
-          <Navbar.Brand href="/login">Login</Navbar.Brand>
-          <Nav className="mr-auto">
-            <Nav.Link href="/home">Home</Nav.Link>
-            <Nav.Link href="/login">Login</Nav.Link>
-            <Nav.Link href="/profile">Profile</Nav.Link>
-          </Nav>
-          <Form inline>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-            <Button variant="outline-primary">Search</Button>
-          </Form>
-        </Navbar>
-      </div>
+        <Navbar name="login"/>
 
-      <div className="App">
-        <div className="login">
-          <div className="container" ref={ref => (this.container = ref)}>
-            {isLogginActive && !isUserLoggedin &&(
-              <Login 
-              containerRef={ref => (this.current = ref)} 
-              isUserLoggedin = {isUserLoggedin}
-              handleLogin = {this.handleLogin}
-              handleLoginChange = {this.handleLoginChange}
-              handleLogout = {this.handleLogout}
-              username = {username}
-              />
-            )}
-            {!isLogginActive && !isUserLoggedin &&(
-              <Register containerRef={ref => (this.current = ref)} />
-            )}
-            {isUserLoggedin && [
-              <h2 key="greeting" className="font">Hello {this.state.username}</h2>,
-              <div key="logout">
-                <button className="btn" onClick={this.handleLogout}>Logout</button>  
-              </div>         
-            ]}
+        <div className="App">
+          <div className="login">
+            <div className="container" ref={ref => (this.container = ref)}>
+              {isLogginActive && !isUserLoggedin &&(
+                <Login 
+                containerRef={ref => (this.current = ref)} 
+                isUserLoggedin = {isUserLoggedin}
+                handleLogin = {this.handleLogin}
+                handleLoginChange = {this.handleLoginChange}
+                handleLogout = {this.handleLogout}
+                username = {username}
+                />
+              )}
+              {!isLogginActive && !isUserLoggedin &&(
+                <Register containerRef={ref => (this.current = ref)} />
+              )}
+              {isUserLoggedin && [
+                <h2 key="greeting" className="font">Hello {this.state.username}</h2>,
+                <div key="logout">
+                  <button className="btn" onClick={this.handleLogout}>Logout</button>  
+                </div>         
+              ]}
+            </div>
+            <RightSide
+              current={current}
+              currentActive={currentActive}
+              containerRef={ref => (this.rightSide = ref)}
+              onClick={this.changeState.bind(this)}
+            />
           </div>
-          <RightSide
-            current={current}
-            currentActive={currentActive}
-            containerRef={ref => (this.rightSide = ref)}
-            onClick={this.changeState.bind(this)}
-          />
         </div>
       </div>
-    </div>
     );
   }
 }

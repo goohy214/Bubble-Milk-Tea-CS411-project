@@ -1,26 +1,14 @@
 import React from 'react';
-import {Navbar, Nav, Form, FormControl, Button, Card, CardDeck} from "react-bootstrap";
 import p1 from "./images/p1.jpg";
 import p2 from "./images/p2.jpg";
 import p3 from "./images/p3.jpg";
+import Navbar from "./components/navbar";
+import { Button, Card, CardDeck } from "react-bootstrap";
 
  function Home() {
      return (
        <div>
-         <div>
-          <Navbar bg="light" variant="light">
-            <Navbar.Brand href="/home">Home</Navbar.Brand>
-            <Nav className="mr-auto">
-              <Nav.Link href="/home">Home</Nav.Link>
-              <Nav.Link href="/login">Login</Nav.Link>
-              <Nav.Link href="/profile">Profile</Nav.Link>
-            </Nav>
-            <Form inline>
-              <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-              <Button variant="outline-primary">Search</Button>
-            </Form>
-          </Navbar>
-        </div>
+         <Navbar name="home" />
 
         <div className="container-fluid mt-4">
           <CardDeck>

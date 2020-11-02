@@ -5,10 +5,13 @@ from rest_framework import status
  
 from tutorials.models import Tutorial
 from tutorials.serializers import TutorialSerializer
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+
+from rest_framework import permissions
 
 # Create your views here.
 @api_view(['GET', 'POST', 'DELETE'])
+@permission_classes((permissions.AllowAny,))
 def tutorial_list(request):
     # GET list of tutorials, POST a new tutorial, DELETE all tutorials
     if request.method == 'GET':
@@ -36,6 +39,7 @@ def tutorial_list(request):
  
  
 @api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes((permissions.AllowAny,))
 def tutorial_detail(request, pk):
     # find tutorial by pk (id)
     try: 
@@ -62,6 +66,7 @@ def tutorial_detail(request, pk):
     
         
 @api_view(['GET'])
+@permission_classes((permissions.AllowAny,))
 def tutorial_list_published(request):
     # GET all published tutorials
     tutorials = Tutorial.objects.filter(published=True)
