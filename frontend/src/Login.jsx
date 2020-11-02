@@ -26,8 +26,6 @@ class App extends React.Component {
 			.then(res => res.json())
 			.then(resp => {
         this.setState({ username : resp.username});
-        localStorage.setItem('user_id', resp.id);
-        localStorage.setItem('username', resp.username);
 			})
 			.catch(err => console.log(err));
 		}
@@ -74,6 +72,9 @@ class App extends React.Component {
     .then(json => {
       console.log(json)
       localStorage.setItem('token', json.token);
+      localStorage.setItem('user_id', json.user.id);
+      localStorage.setItem('username', json.user.username);
+      console.log(localStorage);
       this.setState({
         isUserLoggedin : true,
         username : json.user.username
