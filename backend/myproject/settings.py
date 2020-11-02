@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'tutorials.apps.TutorialsConfig',
     'login.apps.LoginConfig',
+    'service.apps.ServiceConfig',
     'corsheaders',
 ]
 

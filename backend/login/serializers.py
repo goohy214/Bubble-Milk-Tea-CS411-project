@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class GetFullUserSerializer(sz.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username','is_superuser','email')
+        fields = ('id', 'username','is_superuser','email')
 
 class UserSerializerWithToken(sz.ModelSerializer):
     password = sz.CharField(write_only=True)

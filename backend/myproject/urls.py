@@ -24,5 +24,6 @@ urlpatterns = [
     url(r'^', include('tutorials.urls')),
     path('', home, name='home'),
     path('token-auth/', obtain_jwt_token),
-    path('login/', include('login.urls'))
+    path('login/', include('login.urls')),
+    path('', include('service.urls')),
 ]

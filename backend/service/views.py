@@ -23,3 +23,8 @@ def get_user_profile_by_id(request):
             ])
         else:
             return Response({"error": "user id not found"})
+
+@api_view(['GET'])
+def get_current_user(request):
+    serializer = GetFullUserSerializer(request.user)
+    return Response(serializer.data)

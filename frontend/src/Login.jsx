@@ -25,7 +25,9 @@ class App extends React.Component {
 			})
 			.then(res => res.json())
 			.then(resp => {
-				this.setState({ username : resp.username });
+        this.setState({ username : resp.username});
+        localStorage.setItem('user_id', resp.id);
+        localStorage.setItem('username', resp.username);
 			})
 			.catch(err => console.log(err));
 		}
@@ -33,6 +35,8 @@ class App extends React.Component {
 
   handleRemoveToken = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('username');
     this.setState({isUserLoggedin : false, username : ''});
   }
 
