@@ -18,8 +18,9 @@ from django.urls import path, include
 from django.conf.urls import url, include 
 from rest_framework_jwt.views import obtain_jwt_token
 from .views import home
-
+from service import views as service_view
 urlpatterns = [
+    path('api/profile', service_view.get_user_profile_by_id),
     path('admin/', admin.site.urls),
     url(r'^', include('tutorials.urls')),
     path('', home, name='home'),
