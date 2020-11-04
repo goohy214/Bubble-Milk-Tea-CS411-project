@@ -31,4 +31,4 @@ class UserSerializerWithToken(sz.ModelSerializer):
         return user
     class Meta:
         model = User
-        fields = ('token', 'username', 'password', 'email')
+        fields = ('token','username', 'password', 'email')

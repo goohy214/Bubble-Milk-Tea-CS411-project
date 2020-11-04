@@ -34,8 +34,29 @@ def insert_user_profile_by_name(request):
     with connection.cursor() as cursor:
         try:
             cursor.execute(
-                "insert into user_profile (username, birthdate,gender, height, weight, dieting_status) values (%s, null, null, null, null, null)",
+                "insert into user_profile (username, birthdate, gender, height, weight, dieting_status) values (%s, null, null, null, null, null)",
                 [username])
         except Error as error:
             return Response({'status': error.args[1]})
         return Response({'status': 'succeed'})
+
+@api_view(['POST'])
+@permission_classes((permissions.AllowAny,))
+def edit_user_profile(request):
+    user_gender=request.data['gender']
+    username = request.data['username']
+    user_birthday = request.data['birthdate']
+    user_height=request.data['height']
+    user_weight=request.data['weight']
+    user_dieting=request.data['dieting_status']
+    with connection.cursor() as cursor:
+        cursor.execute("UPDATE user_profile SET gender=%s , birthdate=%s, height=%s,weight=%s,dieting_status=%s  where username = %s ", [user_gender,user_birthday,user_height,user_weight,user_dieting,username])
+        cursor.execute("select * from user_profile where user_id = %s", [user_id])
+        row = cursor.fetchone()
+        columns = [col[0] for col in cursor.description]
+        if row:
+            return Response([
+                dict(zip(columns, row))
+            ])
+        else:
+            return Response({"error": "user cannot edit"})
