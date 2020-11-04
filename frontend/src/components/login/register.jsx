@@ -35,38 +35,55 @@ export class Register extends React.Component {
     return valid;
   }
 
-clearForm = () => {
-  this.setState({
-          username : '',
-          email: '',
-          password : '',
-          isRegistered: false,
-        });
-}
+  clearForm = () => {
+    this.setState({
+            username : '',
+            email: '',
+            password : '',
+            isRegistered: false,
+          });
+  }
   
+  handleRequest1 = (username, email, password) => {
+    Axios.post(base_url + 'login/users/create', {
+      'user' : {
+          'username' :  username,
+          'email' : email,
+          'password' : password
+      }})
+    .then(response => {
+        console.log(response);
+        console.log(response.status + " " + response.statusText);
+        this.setState({
+          isRegistered: true
+        });
+    })
+    .catch(error => {
+        console.log(error);
+    })
+    this.clearForm();
+  }
+
+  handleRequest2 = (username) => {
+    Axios.post(base_url + 'profile/add', {
+          'username' :  username,
+      })
+    .then(response => {
+        console.log(response);
+        console.log(response.status + " " + response.statusText);
+
+    })
+    .catch(error => {
+        console.log(error)
+    })
+  }
 
   sendRegistration = e => {
     e.preventDefault()
     const {username, email, password} = this.state
-    console.log(this.state)
     if(this.isValid()){
-        Axios.post(base_url + 'login/users/create', {
-            'user' : {
-                'username' :  username,
-                'email' : email,
-                'password' : password
-            }})
-        .then(response => {
-            console.log(response)
-            console.log(response.status + " " + response.statusText)
-            this.setState({
-              isRegistered: true
-            });
-        })
-        .catch(error => {
-            console.log(error)
-        })
-        this.clearForm()
+        this.handleRequest1(username, email, password);
+        this.handleRequest2(username);
     }
             
 }
