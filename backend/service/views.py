@@ -1,4 +1,5 @@
 from django.db import connection
+from django.db import Error
 from django.shortcuts import render
 
 # Create your views here.
@@ -10,11 +11,11 @@ from rest_framework import permissions
 
 @api_view(['POST'])
 @permission_classes((permissions.AllowAny,))
-def get_user_profile_by_id(request):
-    user_id = request.data['user_id']
+def get_user_profile_by_name(request):
+    username = request.data['username']
 
     with connection.cursor() as cursor:
-        cursor.execute("select * from user_profile where user_id = %s", [user_id])
+        cursor.execute("select * from user_profile where username = %s", [username])
         row = cursor.fetchone()
         columns = [col[0] for col in cursor.description]
         if row:
@@ -23,3 +24,18 @@ def get_user_profile_by_id(request):
             ])
         else:
             return Response({"error": "user id not found"})
+
+
+@api_view(['POST'])
+@permission_classes((permissions.AllowAny,))
+def insert_user_profile_by_name(request):
+    username = request.data['username']
+
+    with connection.cursor() as cursor:
+        try:
+            cursor.execute(
+                "insert into user_profile (username, birthdate,gender, height, weight, dieting_status) values (%s, null, null, null, null, null)",
+                [username])
+        except Error as error:
+            return Response({'status': error.args[1]})
+        return Response({'status': 'succeed'})
