@@ -60,3 +60,28 @@ def edit_user_profile(request):
             ])
         else:
             return Response({"error": "user cannot edit"})
+
+@api_view(['POST'])
+@permission_classes((permissions.AllowAny,))
+def delete_user_profile_by_name(request):
+    username = request.data['username']
+    with connection.cursor() as cursor:
+        try:
+            cursor.execute(
+                "delete from user_profile where username  = %s", [username])
+        except Error as error:
+            return Response({'status': error.args[1]})
+        return Response({'status': 'succeed'})
+
+
+@api_view(['POST'])
+@permission_classes((permissions.AllowAny,))
+def delete_user_by_name(request):
+    username = request.data['username']
+    with connection.cursor() as cursor:
+        try:
+            cursor.execute(
+                "delete from auth_user where username  = %s", [username])
+        except Error as error:
+            return Response({'status': error.args[1]})
+        return Response({'status': 'succeed'})
