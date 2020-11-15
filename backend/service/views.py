@@ -85,3 +85,18 @@ def delete_user_by_name(request):
         except Error as error:
             return Response({'status': error.args[1]})
         return Response({'status': 'succeed'})
+
+@api_view(['POST'])
+@permission_classes((permissions.AllowAny,))
+def insert_ingredient(request):
+    name = request.data['name']
+    calorie = request.data['calorie']
+
+    with connection.cursor() as cursor:
+        try:
+            cursor.execute(
+                "insert into ingredient (name, calorie) values (%s, %s)",
+                [name, calorie])
+        except Error as error:
+            return Response({'status': error.args[1]})
+        return Response({'status': 'succeed'})

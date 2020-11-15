@@ -1,7 +1,8 @@
 import React from "react";
 import "./Login.scss";
-import { Login, Register } from "./components/login/index";
-import Navbar from "./components/navbar";
+import { Login, Register } from "./login/index";
+import Navbar from "./navbar";
+import {Alert} from "react-bootstrap";
 
 const base_url = 'http://127.0.0.1:8000/'
 class App extends React.Component {
@@ -9,6 +10,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       isLogginActive: true,
+      isInactiveUser: false,
       isUserLoggedin : localStorage.getItem('token') ? true : false,
       username : '',
     };
@@ -35,7 +37,7 @@ class App extends React.Component {
     localStorage.removeItem('token');
     localStorage.removeItem('user_id');
     localStorage.removeItem('username');
-    this.setState({isUserLoggedin : false, username : ''});
+    this.setState({isUserLoggedin : false, isInactiveUser: false, username : ''});
   }
 
   componentWillUnmount() {
@@ -81,8 +83,18 @@ class App extends React.Component {
       })
     })
     .catch(error => {
-      console.log(error)
+      console.log(error);
+      this.setState({
+        isInactiveUser: true
+      })
     })
+  }
+
+  handelAlertOnClose = () => {
+    this.setState({
+      isInactiveUser: false
+    });
+    localStorage.removeItem('token');
   }
 
   changeState() {
@@ -98,35 +110,47 @@ class App extends React.Component {
   }
 
   render() {
-    const { isLogginActive, isUserLoggedin, username } = this.state;
+    const { isLogginActive, isInactiveUser, isUserLoggedin, username } = this.state;
     const current = isLogginActive ? "Register" : "Login";
     const currentActive = isLogginActive ? "login" : "register";
     return (
       <div>
         <Navbar name="login"/>
+        <div>
+          {isInactiveUser && (
+            <Alert variant="danger" onClose={() => this.handelAlertOnClose()} dismissible>
+              <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+              <p>
+                User does not exist
+              </p>
+          </Alert>
+          )}
+        </div>
 
         <div className="App">
           <div className="login">
             <div className="container" ref={ref => (this.container = ref)}>
-              {isLogginActive && !isUserLoggedin &&(
-                <Login 
-                containerRef={ref => (this.current = ref)} 
-                isUserLoggedin = {isUserLoggedin}
-                handleLogin = {this.handleLogin}
-                handleLoginChange = {this.handleLoginChange}
-                handleLogout = {this.handleLogout}
-                username = {username}
-                />
-              )}
-              {!isLogginActive && !isUserLoggedin &&(
-                <Register containerRef={ref => (this.current = ref)} />
-              )}
-              {isUserLoggedin && [
-                <h2 key="greeting" className="font">Hello {this.state.username}</h2>,
-                <div key="logout">
-                  <button className="btn" onClick={this.handleLogout}>Logout</button>  
-                </div>         
-              ]}
+              <div>
+                {isLogginActive && !isUserLoggedin &&(
+                  <Login 
+                  containerRef={ref => (this.current = ref)} 
+                  isUserLoggedin = {isUserLoggedin}
+                  handleLogin = {this.handleLogin}
+                  handleLoginChange = {this.handleLoginChange}
+                  handleLogout = {this.handleLogout}
+                  username = {username}
+                  />
+                )}
+                {!isLogginActive && !isUserLoggedin &&(
+                  <Register containerRef={ref => (this.current = ref)} />
+                )}
+                {isUserLoggedin && [
+                  <h2 key="greeting" className="font">Hello {this.state.username}</h2>,
+                  <div key="logout">
+                    <button className="btn" onClick={this.handleLogout}>Logout</button>  
+                  </div>         
+                ]}
+              </div>
             </div>
             <RightSide
               current={current}

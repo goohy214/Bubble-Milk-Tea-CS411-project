@@ -9,11 +9,13 @@
     "react": "^16.8.6",
     "react-bootstrap": "^1.4.0",
     "react-dom": "^16.8.6",
+    "react-icons": "^3.11.0",
     "react-pose": "^4.0.8",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.0.1",
     "react-spring": "^8.0.20",
     "react-user-profile": "^1.0.3",
+    "shortid": "^2.2.16",
     "styled-components": "^5.2.1"
   },
   "scripts": {

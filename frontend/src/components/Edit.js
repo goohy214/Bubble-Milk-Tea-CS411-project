@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Form, Button, Container} from "react-bootstrap";
 import Axios from 'axios';
-import Navbar from "./components/navbar";
+import Navbar from "./navbar";
 
 const base_url = 'http://127.0.0.1:8000/';
 class Edit extends Component{

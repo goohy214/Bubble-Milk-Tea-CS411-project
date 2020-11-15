@@ -7,7 +7,7 @@ function Mynavbar(props) {
             <Navbar bg="light" variant="light">
             <Navbar.Brand href="/`{props.name}`">{props.name}</Navbar.Brand>
             <Nav className="mr-auto">
-                <Nav.Link href="/home">Home</Nav.Link>
+                <Nav.Link href="/">Home</Nav.Link>
                 <Nav.Link href="/login">Login</Nav.Link>
                 <Nav.Link href="/profile">Profile</Nav.Link>
             </Nav>
