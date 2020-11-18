@@ -3,10 +3,11 @@ import './index.css';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from './components/Home';
 import Login from './components/Login';
-import Profile from './components/Profile';
+import Profile from './components/profile/Profile';
 import Edit from './components/Edit';
 import Ingredient from './components/Ingredient';
 import Calculator from './components/Calculator';
+import Menu from './components/menu/Menu';
 
 function App()  {
   return (
@@ -18,6 +19,7 @@ function App()  {
       <Route path="/edit" component={Edit} />
       <Route path="/ingredient" component={Ingredient} />
       <Route path="/calculator" component={Calculator} />
+      <Route path="/menu" component={Menu} />
      </Switch>
     </BrowserRouter>
 );

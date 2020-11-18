@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
-import pic from '../milktea.svg';
-import Navbar from "./navbar";
+import pic from '../../milktea.svg';
+import Navbar from "../navbar";
 import {Card, Container} from "react-bootstrap";
 import MyProfile from './myProfile';
 

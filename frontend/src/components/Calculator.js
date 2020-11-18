@@ -40,6 +40,7 @@ class Calculator extends Component {
                   key={meal.id}
                   meal={meal}
                   onDelete={() => this.onDelete(meal.id)}
+                  showTab={true}
                 />
               ))}
               <tr>

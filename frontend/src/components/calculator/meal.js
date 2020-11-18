@@ -7,10 +7,12 @@ export function Meal(props) {
       <tr>
         <td>{props.meal.text}</td>
         <td>{props.meal.calorie}</td>
+        {props.showTab && 
         <td>
-          <FaTrash onClick={props.onDelete} className="mr-4" />
-          <FaEdit />
+        <FaTrash onClick={props.onDelete} className="mr-4" />
+        <FaEdit />
         </td>
+        }       
       </tr>
     </React.Fragment>
   );
