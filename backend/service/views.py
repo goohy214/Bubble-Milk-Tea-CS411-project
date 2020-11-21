@@ -120,3 +120,20 @@ def dictfetchall(cursor):
         dict(zip(columns, row))
         for row in cursor.fetchall()
     ]
+
+@api_view(['POST'])
+@permission_classes((permissions.AllowAny,))
+def get_ingredient_with_username(request):
+    username = request.data['username']
+
+    with connection.cursor() as cursor:
+        try:
+            cursor.execute(
+                "select ingredient.name, ingredient.calorie from user_like join ingredient on user_like.ingredient = ingredient.name where username = %s",
+                [username])
+        except Error as error:
+            return Response({'status': error.args[1]})
+        all_data = dictfetchall(cursor)
+        return Response([
+            all_data
+        ])

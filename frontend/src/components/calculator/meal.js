@@ -1,5 +1,7 @@
 import React from "react";
+import './meal.css';
 import { FaTrash, FaEdit } from "react-icons/fa";
+import { GiClick } from "react-icons/gi";
 
 export function Meal(props) {
   return (
@@ -12,7 +14,15 @@ export function Meal(props) {
         <FaTrash onClick={props.onDelete} className="mr-4" />
         <FaEdit />
         </td>
-        }       
+        }
+        {props.showMenuAddTab && 
+        <td>
+          <GiClick onClick={props.onMenuAdd} className="mr-4 button" />
+        </td>}    
+        {props.showMenuDeleteTab &&
+        <td>
+          <FaTrash onClick={props.onMenuDelete} className="mr-4 button" />
+          </td>}   
       </tr>
     </React.Fragment>
   );

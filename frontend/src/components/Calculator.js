@@ -37,7 +37,7 @@ class Calculator extends Component {
             <tbody>
               {this.state.meals.map((meal) => (
                 <Meal
-                  key={meal.id}
+                  key={meal.text}
                   meal={meal}
                   onDelete={() => this.onDelete(meal.id)}
                   showTab={true}
