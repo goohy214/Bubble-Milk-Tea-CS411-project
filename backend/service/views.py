@@ -125,7 +125,7 @@ def dictfetchall(cursor):
 @permission_classes((permissions.AllowAny,))
 def get_ingredient_with_username(request):
     username = request.data['username']
-
+    
     with connection.cursor() as cursor:
         try:
             cursor.execute(
@@ -137,3 +137,21 @@ def get_ingredient_with_username(request):
         return Response([
             all_data
         ])
+
+@api_view(['POST'])
+@permission_classes((permissions.AllowAny,))
+def check_calorie(request):
+    username = request.data['username']
+    consumedCal = request.data['consumedCal']
+
+    with connection.cursor() as cursor:
+        try:
+            cursor.callproc("CheckCalorie", [username, consumedCal])
+        except Error as error:
+            return Response({'status':error.args[1]})
+        all_data = cursor.fetchall()
+        return Response([
+            all_data
+        ])
+
+    

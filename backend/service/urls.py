@@ -9,6 +9,7 @@ urlpatterns = [
      path('user/delete', delete_user_by_name),
      path('ingredient/add', insert_ingredient),
      path('ingredient/get', get_all_ingredient),
-     path('ingredient/fav', get_ingredient_with_username)
+     path('ingredient/fav', get_ingredient_with_username),
+     path('ingredient/check', check_calorie)
 ]
 
