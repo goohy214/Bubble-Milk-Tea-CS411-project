@@ -78,7 +78,7 @@ class Edit extends Component{
         if(this.isValid) {
             Axios.post(base_url + 'profile/edit', {
               'username' : `${localStorage.getItem('username')}`,
-              'birthdate' : birthdate,
+              'age' : birthdate,
               'gender': gender,
               'height': height,
               'weight': weight,

@@ -32,7 +32,7 @@ class Profile extends Component {
         console.log(response.status + " " + response.statusText)
         const res = response.data[0];
         this.setState({
-          birthday : res.birthdate,
+          birthday : res.age,
           gender : res.gender,
           height : res.height,
           weight : res.weight,

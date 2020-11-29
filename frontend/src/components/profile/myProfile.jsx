@@ -8,7 +8,7 @@ function MyProfile(props) {
         <div>
             <UserProfile photo={props.photo} userName={props.userName} location={props.location} initialLikesCount={100} initialFollowingCount={200} initialFollowersCount={200} />
             <div style ={{margin: "20px 20px 10px 20px"}}>
-                birthday: {props.birthday}
+                age: {props.birthday}
             </div>
             <div style ={{margin: "20px 20px 10px 20px"}}>
                 gender: {props.gender}
