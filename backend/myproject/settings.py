@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+import pymongo
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,7 +43,8 @@ INSTALLED_APPS = [
     'tutorials.apps.TutorialsConfig',
     'login.apps.LoginConfig',
     'service.apps.ServiceConfig',
-    'corsheaders',
+    'mongo.apps.MongoConfig',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -78,10 +80,21 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+# https://docs.djangopr0oject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'default': {},
+    'mongo': {
+        'ENGINE': 'djongo',
+            "CLIENT": {
+                "name": 'CS411',
+                "host": 'mongodb+srv://hanyue:BsWnPCkuhiNxryGY@cluster0.vywd3.mongodb.net/CS411?ssl=true&ssl_cert_reqs=CERT_NONE&retryWrites=true&w=majority',
+                "username": 'hanyue',
+                "password": 'BsWnPCkuhiNxryGY',
+                "authMechanism": "SCRAM-SHA-1",
+            }
+    },
+    'mysql': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'djangodatabase',
         'USER': 'admin',
@@ -90,6 +103,8 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+
+
 
 
 # Password validation
@@ -144,6 +159,7 @@ REST_FRAMEWORK = {
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
+    'http://localhost:8081',
 )
 
 JWT_AUTH = {
