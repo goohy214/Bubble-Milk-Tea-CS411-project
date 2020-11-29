@@ -1,4 +1,4 @@
-from django.db import connection
+from django.db import connections
 from django.db import Error
 from django.shortcuts import render
 
@@ -14,7 +14,7 @@ from rest_framework import permissions
 def get_user_profile_by_name(request):
     username = request.data['username']
 
-    with connection.cursor() as cursor:
+    with connections['mysql'].cursor() as cursor:
         cursor.execute("select * from user_profile where username = %s", [username])
         row = cursor.fetchone()
         columns = [col[0] for col in cursor.description]
@@ -31,7 +31,7 @@ def get_user_profile_by_name(request):
 def insert_user_profile_by_name(request):
     username = request.data['username']
 
-    with connection.cursor() as cursor:
+    with connections['mysql'].cursor() as cursor:
         try:
             cursor.execute(
                 "insert into user_profile (username, birthdate, gender, height, weight, dieting_status) values (%s, null, null, null, null, null)",
@@ -49,7 +49,7 @@ def edit_user_profile(request):
     user_height=request.data['height']
     user_weight=request.data['weight']
     user_dieting=request.data['dieting_status']
-    with connection.cursor() as cursor:
+    with connections['mysql'].cursor() as cursor:
         cursor.execute("UPDATE user_profile SET gender=%s , birthdate=%s, height=%s,weight=%s,dieting_status=%s  where username = %s ", [user_gender,user_birthday,user_height,user_weight,user_dieting,username])
         cursor.execute("select * from user_profile where user_id = %s", [user_id])
         row = cursor.fetchone()
@@ -78,7 +78,7 @@ def delete_user_profile_by_name(request):
 @permission_classes((permissions.AllowAny,))
 def delete_user_by_name(request):
     username = request.data['username']
-    with connection.cursor() as cursor:
+    with connections['mysql'].cursor() as cursor:
         try:
             cursor.execute(
                 "delete from auth_user where username  = %s", [username])
@@ -92,7 +92,7 @@ def insert_ingredient(request):
     name = request.data['name']
     calorie = request.data['calorie']
 
-    with connection.cursor() as cursor:
+    with connections['mysql'].cursor() as cursor:
         try:
             cursor.execute(
                 "insert into ingredient (name, calorie) values (%s, %s)",
@@ -105,7 +105,7 @@ def insert_ingredient(request):
 @permission_classes((permissions.AllowAny,))
 def get_all_ingredient(request):
 
-    with connection.cursor() as cursor:
+    with connections['mysql'].cursor() as cursor:
         cursor.execute("select * from ingredient ")
         all_data = dictfetchall(cursor)
         return Response([
@@ -126,7 +126,7 @@ def dictfetchall(cursor):
 def get_ingredient_with_username(request):
     username = request.data['username']
     
-    with connection.cursor() as cursor:
+    with connections['mysql'].cursor() as cursor:
         try:
             cursor.execute(
                 "select ingredient.name, ingredient.calorie from user_like join ingredient on user_like.ingredient = ingredient.name where username = %s",
@@ -144,7 +144,7 @@ def check_calorie(request):
     username = request.data['username']
     consumedCal = request.data['consumedCal']
 
-    with connection.cursor() as cursor:
+    with connections['mysql'].cursor() as cursor:
         try:
             cursor.callproc("CheckCalorie", [username, consumedCal])
         except Error as error:
