@@ -8,6 +8,8 @@ import Edit from './components/Edit';
 import Ingredient from './components/Ingredient';
 import Calculator from './components/Calculator';
 import Menu from './components/menu/Menu';
+import RecipeApp from './components/recipe/RecipeApp';
+import AddRecipe from './components/addRecipe';
 
 function App()  {
   return (
@@ -20,6 +22,8 @@ function App()  {
       <Route path="/ingredient" component={Ingredient} />
       <Route path="/calculator" component={Calculator} />
       <Route path="/menu" component={Menu} />
+      <Route path="/recipe" component={RecipeApp} />
+      <Route path="/add" component={AddRecipe} />
      </Switch>
     </BrowserRouter>
 );

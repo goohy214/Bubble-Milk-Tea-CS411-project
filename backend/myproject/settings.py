@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'tutorials.apps.TutorialsConfig',
     'login.apps.LoginConfig',
     'service.apps.ServiceConfig',
-    'mongo.apps.MongoConfig',
     'corsheaders'
 ]
 
@@ -83,18 +82,18 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 # https://docs.djangopr0oject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {},
-    'mongo': {
-        'ENGINE': 'djongo',
-            "CLIENT": {
-                "name": 'CS411',
-                "host": 'mongodb+srv://hanyue:BsWnPCkuhiNxryGY@cluster0.vywd3.mongodb.net/CS411?ssl=true&ssl_cert_reqs=CERT_NONE&retryWrites=true&w=majority',
-                "username": 'hanyue',
-                "password": 'BsWnPCkuhiNxryGY',
-                "authMechanism": "SCRAM-SHA-1",
-            }
-    },
-    'mysql': {
+    # 'default': {},
+    # 'mongo': {
+    #     'ENGINE': 'djongo',
+    #         "CLIENT": {
+    #             "name": 'CS411',
+    #             "host": 'mongodb+srv://hanyue:BsWnPCkuhiNxryGY@cluster0.vywd3.mongodb.net/CS411?ssl=true&ssl_cert_reqs=CERT_NONE&retryWrites=true&w=majority',
+    #             "username": 'hanyue',
+    #             "password": 'BsWnPCkuhiNxryGY',
+    #             "authMechanism": "SCRAM-SHA-1",
+    #         }
+    # },
+    'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'djangodatabase',
         'USER': 'admin',
@@ -159,7 +158,6 @@ REST_FRAMEWORK = {
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
-    'http://localhost:8081',
 )
 
 JWT_AUTH = {

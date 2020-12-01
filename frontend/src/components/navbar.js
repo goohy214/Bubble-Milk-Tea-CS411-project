@@ -11,11 +11,9 @@ function Mynavbar(props) {
                 <Nav.Link href="/login">Login</Nav.Link>
                 <Nav.Link href="/profile">Profile</Nav.Link>
                 <Nav.Link href="/menu">Menu</Nav.Link>
+                <Nav.Link href="/recipe">Recipe</Nav.Link>
+                <Nav.Link href="/add">Add Recipe</Nav.Link>
             </Nav>
-            <Form inline>
-                <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                <Button variant="outline-primary">Search</Button>
-            </Form>
             </Navbar>
       </div>
     );
