@@ -13,6 +13,7 @@ function Mynavbar(props) {
                 <Nav.Link href="/menu">Menu</Nav.Link>
                 <Nav.Link href="/recipe">Recipe</Nav.Link>
                 <Nav.Link href="/add">Add Recipe</Nav.Link>
+                <Nav.Link href="/search">Recipe Online</Nav.Link>
             </Nav>
             </Navbar>
       </div>

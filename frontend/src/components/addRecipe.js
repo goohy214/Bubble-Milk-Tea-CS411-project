@@ -35,7 +35,8 @@ class AddRecipe extends Component {
         response.ingredients.push({"name": meal.text, "quantity":meal.calorie})
     })
     console.log(JSON.stringify(response));
-    this.handleRequest(response);
+    this.handleRequest1(response);
+    this.handleRequest2(response.name);
   };
 
   clear = () => {
@@ -46,7 +47,7 @@ class AddRecipe extends Component {
     this.setState({name: event.target.value});
   }
 
-  handleRequest = (data) => {
+  handleRequest1 = (data) => {
     Axios.post(`http://127.0.0.1:8080/recipe/add`, data)
     .then(response => {
       console.log(response)
@@ -55,7 +56,21 @@ class AddRecipe extends Component {
     .catch(error => {
       console.log(error)
     })
-    
+
+  }
+
+  handleRequest2 = (name) => {
+    Axios.post(`http://127.0.0.1:8000/recipe/add`, {
+        "recipe_name": name,
+        "username": `${localStorage.getItem('username')}`
+    })
+    .then(response => {
+      console.log(response)
+      console.log(response.status + " " + response.statusText)
+    })
+    .catch(error => {
+      console.log(error)
+    })
   }
   
   render() {

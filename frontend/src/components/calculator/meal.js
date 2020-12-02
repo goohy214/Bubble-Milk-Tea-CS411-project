@@ -2,6 +2,7 @@ import React from "react";
 import './meal.css';
 import { FaTrash, FaEdit } from "react-icons/fa";
 import { GiClick } from "react-icons/gi";
+import {FcLike} from "react-icons/fc";
 
 export function Meal(props) {
   return (
@@ -22,7 +23,11 @@ export function Meal(props) {
         {props.showMenuDeleteTab &&
         <td>
           <FaTrash onClick={props.onMenuDelete} className="mr-4 button" />
-          </td>}   
+          </td>} 
+        {props.showLikeTab && 
+        <td>
+          <FcLike onClick={props.onAddLike} className="mr-4 button" />
+        </td>}  
       </tr>
     </React.Fragment>
   );

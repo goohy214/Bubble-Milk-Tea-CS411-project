@@ -10,6 +10,7 @@ import Calculator from './components/Calculator';
 import Menu from './components/menu/Menu';
 import RecipeApp from './components/recipe/RecipeApp';
 import AddRecipe from './components/addRecipe';
+import OnlineRecipe from './components/onlineRecipe/OnlineRecipe';
 
 function App()  {
   return (
@@ -24,6 +25,7 @@ function App()  {
       <Route path="/menu" component={Menu} />
       <Route path="/recipe" component={RecipeApp} />
       <Route path="/add" component={AddRecipe} />
+      <Route path="/search" component={OnlineRecipe} />
      </Switch>
     </BrowserRouter>
 );

@@ -105,8 +105,8 @@ class Edit extends Component{
                     <Container fluid="md" style={{backgroundColor: 'rgba(255, 255, 255, 0.8)', width: '60rem' }}>
                         <Form>
                             <Form.Group>
-                                <Form.Label>Birthday</Form.Label>
-                                <Form.Control type="text" name="birthdate" placeholder="Enter birthday" value={birthdate} onChange={this.changeHandler}/>
+                                <Form.Label>Age</Form.Label>
+                                <Form.Control type="text" name="birthdate" placeholder="Enter age" value={birthdate} onChange={this.changeHandler}/>
                             </Form.Group>
 
                             <div key={`inline-checkbox`} className="mb-3">

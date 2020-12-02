@@ -21,11 +21,17 @@ class Menu extends Component {
 
   state = {
     meals: [],
+    limitedMeals: [],
     selectedMeals: [],
     favMeals:[],
+    favMealsCal:[],
+    favMenuCal:[],
     countSelected: 0,
     consumedCal: 0,
-    isInvalidCal: false
+    isInvalidCal: false,
+    calLimite: 0,
+    calLimiteAll: 0,
+    calLimiteFav: 0
   };
 
   handleRequest1 = () => {
@@ -93,17 +99,91 @@ class Menu extends Component {
     })
   }
 
+  handleRequest4 = (meal) => {
+    Axios.post(base_url + 'user/like', {
+      'username' : `${localStorage.getItem('username')}`,
+      'ingredient': meal.text
+    })
+    .then(response => {
+      console.log(response)
+      console.log(response.status + " " + response.statusText)
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+
+  handleRequest5 = (calorie) => {
+    Axios.post(base_url + 'get_ingredient_with_calorie', {
+        "calorie": calorie,
+        "username": `${localStorage.getItem('username')}`
+    })
+    .then(response => {
+      console.log(response)
+      console.log(response.status + " " + response.statusText)
+      response.data[0].forEach(element => {
+        this.setState({
+          favMealsCal: [
+            { text: element.name, calorie: element.calorie },
+            ...this.state.favMealsCal
+          ],
+        })
+      });
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+
+  handleRequest6 = (calorie) => {
+    Axios.post(base_url + 'list_ingredient', {
+        "target": calorie,
+        "range": 10
+    })
+    .then(response => {
+      console.log(response)
+      console.log(response.status + " " + response.statusText)
+      this.setState({
+        limitedMeals:response.data
+      });
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+
+  handleRequest7 = (calorie) => {
+    Axios.post(base_url + 'list_ingredient_username', {
+        "target": calorie,
+        "range": 10,
+        "username": `${localStorage.getItem('username')}`
+    })
+    .then(response => {
+      console.log(response)
+      console.log(response.status + " " + response.statusText)
+      this.setState({
+        favMenuCal:response.data
+      });
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+
   componentDidMount(){
     this.handleRequest1();
-    this.handleRequest2();
     this.handleRequest3(0);
   }
 
   handleFavClick() {
     if (this.state.isFav) {
-      this.setState({isFav: false});
+      this.setState({
+        isFav: false,
+        favMeals:[]
+      });
     } else {
       this.setState({isFav: true});
+      this.handleRequest2();
     }
   }
 
@@ -143,17 +223,57 @@ class Menu extends Component {
     this.handleRequest3(reducer);
   }
 
+  handleOnSet() {
+    this.setState({
+      favMealsCal:[]
+    });
+    this.handleRequest5(this.state.calLimite);
+  }
+
+  handleOnSetAll() {
+    this.setState({
+      limitedMeals:[]
+    });
+    this.handleRequest6(this.state.calLimiteAll);
+  }
+
+  handleOnSetFav() {
+    this.setState({
+      favMenuCal:[]
+    });
+    this.handleRequest7(this.state.calLimiteFav);
+  }
+
   handelAlertOnClose = () => {
     this.setState({
       isInvalidCal: false
     });
   }
 
+  handleSetCal = (e) => {
+    this.setState({
+      calLimite: e.target.value
+    })
+  }
+
+  handleSetCalAll = (e) => {
+    this.setState({
+      calLimiteAll: e.target.value
+    })
+  }
+
+  handleSetCalFav = (e) => {
+    this.setState({
+      calLimiteFav: e.target.value
+    })
+  }
+
   render() {
     const eaten = this.state.consumedCal;
-    const {isInvalidCal, meals, favMeals, selectedMeals}= this.state
+    const {isInvalidCal, meals, calLimite, favMenuCal,calLimiteAll, calLimiteFav,favMeals, favMealsCal, limitedMeals, selectedMeals}= this.state
     const total = 1500;
     let x;
+    let y;
     if (!this.state.isFav) {
       x = 
       <tbody>
@@ -162,21 +282,128 @@ class Menu extends Component {
             key={i}
             meal={meal}
             showMenuAddTab={true}
+            showLikeTab={true}
             onMenuAdd={() => this.handleOnMenuAdd(meal)}
+            onAddLike={() => this.handleRequest4(meal)}
           />
         ))}
       </tbody>
+      y =
+
+        <div className="form-group">
+          <label>You will get recommended recipes lower than entered calories</label>
+          <input
+            name="text"
+            value={calLimiteAll}
+            onChange={ this.handleSetCalAll}
+            className="form-control"
+            id="calorie"
+          />
+          <Button onClick={() => this.handleOnSetAll()}>
+          Set
+          </Button>
+        
+          <table className="table table-striped">
+          <thead>
+            <tr>
+              <th>Ingredients</th>
+            </tr>
+          </thead>
+          
+          <tbody>
+          <React.Fragment>
+            {limitedMeals.map((ingredients,i)=> (
+              <tr key={i}>{ingredients.map((ingredient, j)=> (
+                <td key={j}>{ingredient}</td>
+              ))}</tr>
+            ))}
+          </React.Fragment>
+          </tbody>
+        </table>
+            
+        </div>  
+
     } else {
       x = <tbody>
         {favMeals.map((meal, i) => (
           <Meal
             key={i}
             meal={meal}
-            showMenuAddTab={true}
+            showMenuAddTab={true}           
             onMenuAdd={() => this.handleOnMenuAdd(meal)}
           />
         ))}
       </tbody>
+      y =  
+      <div>
+          <div className="form-group">
+            <label>You can choose Ingredients lower than entered calories from your favourites</label>
+            <input
+              name="text"
+              value={calLimite}
+              onChange={ this.handleSetCal}
+              className="form-control"
+              id="calorie"
+            />
+            <Button onClick={() => this.handleOnSet()}>
+            Set
+          </Button>
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th>Ingredients</th>
+                <th>Calories</th>
+                <th />
+              </tr>
+            </thead>
+              <tbody>
+              {favMealsCal.map((meal, i) => (
+                <Meal
+                  key={i}
+                  meal={meal}
+                  showMenuAddTab={true}           
+                  onMenuAdd={() => this.handleOnMenuAdd(meal)}
+                />
+              ))}
+            </tbody>
+          </table>
+        </div> 
+
+          <hr />
+
+          <div className="form-group">
+          <label>You will get recommended recipes lower than entered calories includeing your favourite ingredients</label>
+          <input
+            name="text"
+            value={calLimiteFav}
+            onChange={ this.handleSetCalFav}
+            className="form-control"
+            id="calorie"
+          />
+          <Button onClick={() => this.handleOnSetFav()}>
+          Set
+          </Button>
+
+          <table className="table table-striped">
+          <thead>
+            <tr>
+              <th>Ingredients</th>
+            </tr>
+          </thead>
+
+          <tbody>
+          <React.Fragment>
+            {favMenuCal.map((ingredients,i)=> (
+              <tr key={i}>{ingredients.map((ingredient, j)=> (
+                <td key={j}>{ingredient}</td>
+              ))}</tr>
+            ))}
+          </React.Fragment>
+          </tbody>
+          </table>
+            
+          </div>  
+      </div>
     }
     return (
       <div>
@@ -259,6 +486,10 @@ class Menu extends Component {
                   {x}
               </table>
 
+              <hr />
+
+              {y}
+             
             </div>
           </Container>
         </div>    

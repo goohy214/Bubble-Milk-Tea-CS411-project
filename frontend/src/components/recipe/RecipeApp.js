@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { Component, useEffect, useState } from "react";
 import Recipe from './Recipe';
 import './RecipeApp.css';
 import Navbar from "../navbar";
 import Axios from 'axios';
+import style from './recipe.module.css';
+import {AiOutlinePlus} from 'react-icons/ai';
 
 const RecipeApp = () => {
   const APP_ID = "4aa63c35"
@@ -10,11 +12,34 @@ const RecipeApp = () => {
 
   const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState("");
-  const [query, setQuery] = useState('test');
+  const [query, setQuery] = useState('');
+  const [yourRecipes, setYourRecipes] = useState([]);
+  const [dontUpdate, setDontUpdate] = useState(false);
 
   useEffect(() =>{
     getRecipes();
   }, [query]);
+
+  useEffect(() =>{
+    handleRequest1();
+  });
+
+  const handleRequest1 = () => {
+    Axios.post(`http://127.0.0.1:8000/recipe/show`, 
+    {"username": `${localStorage.getItem('username')}`})
+    .then(response => {
+      console.log(response)
+      console.log(response.status + " " + response.statusText)
+      const res = response.data[0];
+      if (!dontUpdate) {
+        updateYourRecipe(res);
+      }     
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+
 
   //modify here to access recipes in mongoDB
   const getRecipes = async () => {
@@ -23,11 +48,20 @@ const RecipeApp = () => {
       console.log(response)
       console.log(response.status + " " + response.statusText)
       const res = response.data;
-      setRecipes(res);
+      updateRecipe(res);
     })
     .catch(error => {
       console.log(error)
     })
+  }
+
+  const updateRecipe = (recipes) => {
+    setRecipes(recipes);
+  }
+
+  const updateYourRecipe = (recipes) => {
+    setYourRecipes(recipes);
+    setDontUpdate(true);
   }
 
   const updateSearch = e => {
@@ -40,9 +74,15 @@ const RecipeApp = () => {
     setSearch('');
   }
 
+  const getMyRecipe = (name) => {
+    setSearch(name);
+    setQuery(search);
+    setSearch('');
+  }
+
   return(
     <div>
-      <Navbar name="profile"/>
+      <Navbar name="recipe"/>
 
       <div className="RecipeApp">
         <form onSubmit={getSearch} className="search-form">
@@ -51,11 +91,29 @@ const RecipeApp = () => {
             Search
           </button>
         </form>
+
+        <div className={"recipes"}>
+          {yourRecipes.map((recipe, i) => (
+            <div key={i} className={style.recipe}>
+              <ol>
+                <table>
+                  <tbody>
+                      <tr>
+                          <th>{recipe.recipe_name}</th>
+                      </tr>
+                  </tbody>
+                <AiOutlinePlus />
+                </table>
+              </ol>
+            </div>
+          ))}
+        </div>
+
         <div className={"recipes"}>
           {recipes.map((recipe, i) => (
             <Recipe
               key={i}
-              title={i}
+              title={query}
               ingredients={recipe}
             />
           ))}

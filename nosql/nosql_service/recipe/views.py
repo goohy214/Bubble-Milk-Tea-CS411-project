@@ -56,3 +56,5 @@ def list_recipe(request):
             'ingredients': r.ingredients
         })
     return Response(data)
+
+
