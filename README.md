@@ -13,3 +13,5 @@ Subsequently, navigate into myproject package, run
 `python manage.py runserver`
 to start the server
 
+[Youtube Demo Link](https://www.youtube.com/watch?v=lQMeLGqo7Ag)
+
